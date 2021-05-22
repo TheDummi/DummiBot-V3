@@ -11,35 +11,35 @@ To make it easy just run "~commands" in Discord self.
 
 ### Starter commands
 
-command name | aliases
-start | join
+command name | aliases\
+start | join\
 
 ### Economy commands
 
-command name | aliases
-beg | none
-deposit | dep
-withdraw | wit
+command name | aliases\
+beg | none\
+deposit | dep\
+withdraw | wit\
 
 ### Stats commands
 
-command name | aliases
-balance | bal
-level | rank, lvl
-profile | p
-upgrade | up [health: hp, attack: atk, defense: def, stamina: energy, dodge: dod, stealth: sneak, storage: space]
+command name | aliases\
+balance | bal\
+level | rank, lvl\
+profile | p\
+upgrade | up [health: hp, attack: atk, defense: def, stamina: energy, dodge: dod, stealth: sneak, storage: space]\
 
 ### Help commands
 
-command name | aliases
-commands | command, cmd, cmds
-help | h
+command name | aliases \
+commands | command, cmd, cmds\
+help | h\
 
 ### Settings commands
 
-command name | aliases
-DM | dm [on, off, yes, no] _Yes and no are reversed_
+command name | aliases\
+DM | dm [on, off, yes, no] _Yes and no are reversed_\
 
 ## Prefix
 
-DummiBot's prefix' are "dummi" and "~"
+DummiBot's prefix' are "dummi" and "~"\
