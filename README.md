@@ -25,12 +25,12 @@ To make it easy just run "~commands" in Discord self.
 
 ### Stats commands
 
-| command name | aliases                                                                                                 |
-| ------------ | ------------------------------------------------------------------------------------------------------- |
-| balance      | bal                                                                                                     |
-| level        | rank, lvl                                                                                               |
-| profile      | p                                                                                                       |
-| upgrade      | up [health: hp, attack: atk, defense: def, stamina: energy, dodge: dod, stealth: sneak, storage: space] |
+| command name | aliases   | argument aliases                                                                                     |
+| ------------ | --------- | ---------------------------------------------------------------------------------------------------- |
+| balance      | bal       |
+| level        | rank, lvl |
+| profile      | p         |
+| upgrade      | up        | [health: hp, attack: atk, defense: def, stamina: energy, dodge: dod, stealth: sneak, storage: space] |
 
 ### Help commands
 
@@ -41,9 +41,9 @@ To make it easy just run "~commands" in Discord self.
 
 ### Settings commands
 
-| command name | aliases                                         |
-| ------------ | ----------------------------------------------- |
-| DM           | dm [on, off, yes, no] _Yes and no are reversed_ |
+| command name | aliases | argument aliases                             |
+| ------------ | ------- | -------------------------------------------- |
+| DM           | dm      | [on, off, yes, no] _Yes and no are reversed_ |
 
 ## Prefix
 
