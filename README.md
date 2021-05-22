@@ -48,3 +48,7 @@ To make it easy just run "~commands" in Discord self.
 ## Prefix
 
 DummiBot's prefix' are "dummi" and "~"
+
+## Contact
+
+If you need anymore info/help, join the support server [here](https://discord.gg/DZJCyaU2RS).
