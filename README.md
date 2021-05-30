@@ -17,11 +17,13 @@ To make it easy just run "~commands" in Discord self.
 
 ### Economy commands
 
-| command name | aliases |
-| ------------ | ------- |
-| beg          | none    |
-| deposit      | dep     |
-| withdraw     | wit     |
+| command name | aliases | argument aliases |
+| ------------ | ------- | ---------------- |
+| beg          | none    |                  |
+| deposit      | dep     | amount/all       |
+| withdraw     | wit     | amount/all       |
+| give         | none    | amount           |
+| rob          | steal   |                  |
 
 ### Stats commands
 
@@ -38,6 +40,7 @@ To make it easy just run "~commands" in Discord self.
 | ------------ | ------------------ |
 | commands     | command, cmd, cmds |
 | help         | h                  |
+| info         | i                  |
 
 ### Settings commands
 
@@ -45,10 +48,17 @@ To make it easy just run "~commands" in Discord self.
 | ------------ | ------- | -------------------------------------------- |
 | DM           | dm      | [on, off, yes, no] _Yes and no are reversed_ |
 
+### Info Commands
+
+| command name | aliases |
+| ------------ | ------- |
+| ping         | none    |
+| players      | none    |
+
 ## Prefix
 
 DummiBot's prefix' are "dummi" and "~"
 
 ## Contact
 
-If you need anymore info/help, join the support server [here](https://discord.gg/DZJCyaU2RS).
+If you need any more info/help, join the support server [here](https://discord.gg/DZJCyaU2RS).

@@ -22,14 +22,15 @@ class MessageListener extends Listener {
         });
     }
 
-    async exec(message) {
+    async exec(message, args) {
 
         let client = this.client;
         let user = message.author;
-        let purple = 0xAA00CC;
+        let color = botSettings.color;
+        let prefixes = botSettings.prefixes;
 
         let embed = new Discord.MessageEmbed()
-            .setColor(purple)
+            .setColor(color)
 
         if (user.bot) return;
 
@@ -89,7 +90,7 @@ class MessageListener extends Listener {
 
 
         if (message.content == "<@!" + client.user.id + ">" || message.content == "<@" + client.user.id + ">") {
-            let str = 'My prefixes are:\n`~`,\n`dummi`\n\nRun `~commands` to get my commands.';
+            let str = `My prefixes are: ${prefixes}\n\nRun \`~commands\` to get my commands.`;
             if (name[user.id].player == false) {
                 str = str + `\n\n${user} you have not started your journey yet!\n Use \`~start\` to start your journey.`
             }
@@ -202,6 +203,66 @@ class MessageListener extends Listener {
                 catch (e) {
                     console.log(e)
                 }
+            }
+            let memberXp;
+            let memberCoin;
+            let member;
+            let memberLevel;
+            let memberBank;
+            if (Math.random() < 0.05) {
+                embed = embed
+                    .setTitle('A chest appeared!')
+                    .setImage('https://i.pinimg.com/originals/43/3d/11/433d11455ad682b75e5a2648e51b4d0a.png')
+                    .setFooter('Click 🗝️ to open it!')
+                let msg;
+                try {
+                    msg = await message.channel.send(embed)
+                }
+                catch {
+                    msg = await message.channel.send('A random chest appeared! Click 🗝️ to open it!')
+                }
+                await msg.react('🗝️')
+                const filter = (reaction, user) => reaction.emoji.id = '🗝️';
+                let reactions = await msg.awaitReactions(filter, { max: 1 })
+                let newUser = reactions.first().users.cache.array().slice(1, 2)
+                if (newUser) {
+                    let chestCoins = random(1000) + 1;
+                    member = newUser[0].id;
+                    if (member == message.author.id) {
+                        XP = XP + random(1000) + 1;
+                        coin = coin + chestCoins;
+                    }
+                    if (member != message.author.id) {
+                        memberCoin = coins[member].coins;
+                        memberBank = coins[member].bank;
+                        memberXp = xp[member].xp;
+                        memberLevel = xp[member].level;
+                        memberCoin = memberCoin + chestCoins;
+                        memberXp = memberXp + random(1000) + 1;
+                    }
+
+                    
+                    
+                    
+
+                    await msg.delete();
+                    await message.channel.send(`${newUser} you opened the chest! You found: ₪ ${chestCoins}`);
+                }
+                else {
+                    setTimeout(async () => {
+                        await msg.delete()
+                    }, 60000)
+                }
+            }
+
+            xp[member] = {
+                xp: memberXp,
+                level: memberLevel
+            }
+
+            coins[member] = {
+                coins: memberCoin,
+                bank: memberBank
             }
 
             xp[user.id] = {

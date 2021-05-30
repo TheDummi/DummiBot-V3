@@ -1,18 +1,24 @@
 const {paginate, randColor} = require("../funcs.js");
 const { Command, AkairoModule } = require('discord-akairo');
+const botSettings = require('../data/botSettings.json');
 const Discord = require("discord.js");
 const names = {
 	'start' 	: 'Starter commands',
 	'economy'	: 'Economy commands',
 	'stats'		: 'Stats commands',
 	'help'		: 'Help commands',
+	'owner'     : 'Developer commands',
+	'admin'		: 'Admin commands',
+	'info'		: 'Info commands'
 }
 const nameWeight = {
 	'start'		: 0,
 	'economy'	: 1,
 	'stats'		: 2,
-	'help'		: 3,
-	
+	'help'      : 3,
+	'admin'		: 4,
+	'info'		: 5,
+	'owner'		: 6
 }
 class CommandsCommand extends Command {
 	constructor() {
@@ -34,9 +40,12 @@ class CommandsCommand extends Command {
 			if (!categories.includes(e.category.id)) {
 				categories.push(e.category.id)
 			}
-			if (e.check) {
-				if (e.check(owners)) {
-					runnableCommands.push(e)
+			if (e.ownerOnly) {
+				if (this.client.ownerID.includes(message.author.id)) {
+					return runnableCommands.push(e)
+				}
+				else {
+					return;
 				}
 			}
 			else {
@@ -47,7 +56,7 @@ class CommandsCommand extends Command {
 			return nameWeight[a] - nameWeight[b];
 		})
 		let niceCategories = "";
-		const color = 0xaa00cc
+		let color = botSettings.color;
 		for (let i = 0; i < categories.length; i++) {
 			embeds[i] = new Discord.MessageEmbed()
 			.setTitle(names[categories[i]] || categories[i])
@@ -79,9 +88,10 @@ class CommandsCommand extends Command {
 			niceCategories = niceCategories + `**Page ${i+2}:** ${e.title}\n\n`
 		});
 		let firstEmbed = new Discord.MessageEmbed() 
-		.setTitle("Command categories")
-		.setDescription(niceCategories)
-		.setColor(color)
+			.setTitle("Command categories")
+			.setDescription(niceCategories)
+			.setColor(color)
+			.setThumbnail(message.guild.iconURL({ dynamic: true }))
 		embeds.unshift(firstEmbed)
 		paginate(message, embeds)
 	}

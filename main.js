@@ -11,11 +11,12 @@ class MyClient extends AkairoClient {
         });
         this.commandHandler = new CommandHandler(this, {
             directory: './commands/',
-            prefix: botSettings.prefixes,
+            prefix: message => botSettings.prefixes,
             defaultCooldown: 1000,
             handleEdits: true,
             commandUtil: true,
-            clientPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES"]
+            clientPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "USE_EXTERNAL_EMOJIS", "ADD_REACTIONS", "MANAGE_REACTIONS"],
+            allowMention: true
         });        
         this.commandHandler.loadAll();
         this.inhibitorHandler = new InhibitorHandler(this, {

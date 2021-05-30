@@ -11,7 +11,7 @@ class DMCommand extends Command {
     constructor() {
         super('DM', {
             aliases: ['DM'],
-            category: 'settings',
+            category: 'admin',
             description: 'Toggle level up messages in DM on or off.',
             channel: 'dm',
             args: [

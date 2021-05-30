@@ -25,9 +25,9 @@ class LevelCommand extends Command {
         let argsUsers = args.argsUser;
         let user = message.author;
         let member = argsUsers || user;
-        let purple = 0XAA00CC;
+        let color = botSettings.color;
         let embed = new Discord.MessageEmbed()
-            .setColor(purple)
+            .setColor(color)
         if (check[user.id].player == false) {
             return await message.channel.send(`${user}, you have not started your journey yet!\nStart  your journey with \`~start\``)
         }
@@ -48,7 +48,7 @@ class LevelCommand extends Command {
             let respectX = respect[member.id].respect;
             let nextLevel = botSettings.nextLevel;
             let reqXp = level * nextLevel;
-            let str = `Level: ${level}\nXP: ${XP}\nRespect: ${respectX}`
+            let str = `> Level: ${level}\n> XP: ${XP}\n> Respect: ${respectX}`
             try {
                 embed = embed
                     .setAuthor(`${member.username}'s progress`, member.displayAvatarURL({ dynamic: true }))
@@ -61,10 +61,10 @@ class LevelCommand extends Command {
                 return await message.util.send(embed)
             }
             catch {
-                str = `**${member}'s progress**\n\n` + str
+                str = `> **${member}'s progress**\n> \n` + str
                 let rand = random(2)
                 if (rand == 0) {
-                    str = str + `\n${user}, Did you know that this command looks better in an embed?`;
+                    str = str + `\n> ${user}, Did you know that this command looks better in an embed?`;
                 }
                 else {
                     str = str;

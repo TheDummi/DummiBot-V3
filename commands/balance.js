@@ -26,9 +26,9 @@ class BalanceCommand extends Command {
         let argsUsers = args.argsUser;
         let user = message.author;
         let member = argsUsers || user;
-        let purple = 0XAA00CC;
+        let color = botSettings.color;
         let embed = new Discord.MessageEmbed()
-            .setColor(purple)
+            .setColor(color)
         if (check[user.id].player == false) {
             return await message.channel.send(`${user}, you have not started your journey yet!\nStart  your journey with \`~start\``)
         }
@@ -61,9 +61,9 @@ class BalanceCommand extends Command {
                 }
             catch {
                 let rand = random(2)
-                let str = `**${member}'s Wallet**\n\nWallet: ₪ ${coin}\nBank: ₪ ${bank}/${maxBank} \`${bankSpacePercentage}\`\nTotal: ${coin + bank}`
+                let str = `> **${member}'s Wallet**\n> \n> Wallet: ₪ ${coin}\n> Bank: ₪ ${bank}/${maxBank} \`${bankSpacePercentage}\`\n> Total: ${coin + bank}`
                 if (rand == 0) {
-                    str = str + `\n${user} did you know that this looks better in an embed?`
+                    str = str + `\n> ${user} did you know that this looks better in an embed?`
                 }
                 else return str;
                 return await message.util.send(str)

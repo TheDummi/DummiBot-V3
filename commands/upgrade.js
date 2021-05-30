@@ -27,7 +27,10 @@ class UpgradeCommand extends Command {
                     id: 'amount',
                     type: Argument.union('all', 'number'),
                     prompt: {
-                        start: message => `${message.author} how many skillpoints would you like to spend? You have ${profile[message.author.id].skillPoints}.`
+                        start: message => `${message.author} how many skillpoints would you like to spend? You have ${profile[message.author.id].skillPoints}.`,
+                        cancel: message => `${message.author} you didn't upgrade anything`,
+                        ended: message => `${message.author} I couldn't upgrade any skills. Retry \`~upgrade\``,
+                        timeout: message => `${message.author} I moved on to someone else...`
                     }
                 }
             ]

@@ -2,6 +2,9 @@ const fs = require("fs");
 const got = require("got");
 const Discord = require('discord.js')
 
+const botSettings = require('./data/botSettings.json');
+let color = botSettings.color;
+
 const hasteURLs = [
     "https://hst.sh",
     "https://hastebin.com",
@@ -225,7 +228,7 @@ module.exports = {
                 let embed4 = new Discord.MessageEmbed()
                 .setTitle('Legend')
                 .setDescription('⏪: first page\n\n◀: previous page\n\n⏹: close command\n\n▶: next page\n\n⏩: last page\n\n🔢: page picker\n\n❔: toggle help menu')
-                .setColor(randColor())
+                    .setColor(color)
                 const e = m.embeds[0]
                 const isSame = e.title === embed4.title && e.footer === embed4.footer && e.description === embed4.description
                 if (isSame) {
