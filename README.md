@@ -11,9 +11,9 @@ To make it easy just run "~commands" in Discord self.
 
 ### Starter commands
 
-| command name | aliases |
-| ------------ | ------- |
-| start        | join    |
+| command name | aliases | argument aliases                       |
+| ------------ | ------- | -------------------------------------- |
+| start        | join    | hunter, warlock, tank, sniper, warrior |
 
 ### Economy commands
 
@@ -143,16 +143,16 @@ Warriors are tanks, but trained to be at the frontline. Compared to tanks they a
 
 #### Stats
 
-| category | amount | extra info                                                                              |
-| -------- | ------ | --------------------------------------------------------------------------------------- |
-| health   | 150    | Warriors are trained to be at the frontline                                             |
-| attack   | 20     | compared to the tank these creatures are trained to be quicker                          |
-| defense  | 50     | compared to the tank these creatures are trained to be quicker                          |
-| stamina  | 300    | compared to the tank these creatures are trained to be quicker                          |
-| dodge    | 15%    | their dodge is higher because of their agility training                                 |
-| stealth  | 5%     | their dodge and stealth both got trained at once                                        |
-| critical | 10%    | their beastly moves can cause collision damage                                          |
-| storage  | 300    | they can't carry as much items as a tank, but they still have the power do carry a lot! |
+| category | amount |
+| -------- | ------ |
+| health   | 150    |
+| attack   | 20     |
+| defense  | 50     |
+| stamina  | 300    |
+| dodge    | 15%    |
+| stealth  | 5%     |
+| critical | 10%    |
+| storage  | 300    |
 
 ## Prefix
 
