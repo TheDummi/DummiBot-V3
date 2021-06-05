@@ -32,13 +32,13 @@ class InfoCommand extends Command {
             .setDescription(`Official ${this.client.user.username} info. Join the support server [here](${link}) for more info!`)
             .addField('| Credits', `Owner: ${owner}\nDevelopers: ${owners}\nDirector: Thomas Morton\nGroup: [Portal Development](${link}) ${portalLogo}`)
             .addField('| Technical info', `Version: ${version}\nLanguage: JavaScript\nDataBase: JavaScript Object Notation\nLibrary: Discord.js\nFramework: Discord-akairo`)
-            .addField('| Bot info', `Users: ${users}\nServers: ${servers}\nChannels: ${channels}\nUptime: ${uptime}`)
+            .addField('| Bot info', `Users: ${users}\nServers: ${servers}\nChannels: ${channels}\nUptime: ${uptime}\nDocumentation: [click here for a full list of commands](https://github.com/TheDummi/DummiBot-V3/blob/master/README.md)`)
             .setColor(color)
         try {
             return await message.util.send(embed)
         }
         catch {
-            let str = `> **Bot info about ${this.client.user.username}**\n> Official ${this.client.user.username} info. Join the support server ${link} for more info!\n> \n> **| Credits**\n> Owner: ${owner}\n> Developers: ${owners}\n> Director: Thomas Morton\n> Group: Portal Development ${portalLogo}\n> \n> **| Technical info**\n> Version: ${version}\n> Language: JavaScript\n> DataBase: JavaScript Object Notation\n> Library: Discord.js\n> Framework: Discord-akairo\n> \n> **| Bot info**\n> Users: ${users}\n> Servers: ${servers}\n> Channels: ${channels}\n> Uptime: ${uptime}\n> \n> ${footer}`
+            let str = `> **Bot info about ${this.client.user.username}**\n> Official ${this.client.user.username} info. Join the support server ${link} for more info!\n> \n> **| Credits**\n> Owner: ${owner}\n> Developers: ${owners}\n> Director: Thomas Morton\n> Group: Portal Development ${portalLogo}\n> \n> **| Technical info**\n> Version: ${version}\n> Language: JavaScript\n> DataBase: JavaScript Object Notation\n> Library: Discord.js\n> Framework: Discord-akairo\n> \n> **| Bot info**\n> Users: ${users}\n> Servers: ${servers}\n> Channels: ${channels}\n> Uptime: ${uptime}\n> Documentation: https://github.com/TheDummi/DummiBot-V3/blob/master/README.md\n> \n> ${footer}`
             return await message.util.send(str)
         }
     }

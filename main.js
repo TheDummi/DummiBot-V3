@@ -16,7 +16,7 @@ class MyClient extends AkairoClient {
             handleEdits: true,
             commandUtil: true,
             clientPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "USE_EXTERNAL_EMOJIS", "ADD_REACTIONS", "MANAGE_REACTIONS"],
-            allowMention: true
+            allowMention: true,
         });        
         this.commandHandler.loadAll();
         this.inhibitorHandler = new InhibitorHandler(this, {

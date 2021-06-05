@@ -61,12 +61,12 @@ class GambleCommand extends Command {
             await message.util.reply(`you lost all of your betting!`)
         }
         else if (rand == 2) {
-            num = coin - Math.round(amount);
+            num = coin - Math.round(amount/2);
             coin = num;
             await message.util.reply(`you lost half of your betting!`)
         }
         else if (rand == 3) {
-            num = coin - Math.round(amount);
+            num = coin - Math.round(amount/2);
             coin = num;
             await message.util.reply(`you lost half of your betting!`)
         }

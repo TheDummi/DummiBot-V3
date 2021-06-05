@@ -1,7 +1,15 @@
 const fs = require("fs");
 const got = require("got");
-const Discord = require('discord.js')
+const Discord = require('discord.js');
+const e = new Set();
+const ee = new Set();
 
+const name = require('./data/name.json');
+const xp = require('./data/xp.json');
+const respect = require('./data/respect.json');
+const coins = require('./data/coins.json');
+const profile = require('./data/profile.json');
+const storage = require('./data/storage.json');
 const botSettings = require('./data/botSettings.json');
 let color = botSettings.color;
 
@@ -22,6 +30,121 @@ function randColor() {
 }
 
 module.exports = {
+    dataCheck(message) {
+        let user = message.author;
+        if (!xp[user.id]) {
+            xp[user.id] = {
+                xp: 0,
+                level: 1
+            }
+        }
+
+        if (!respect[user.id]) {
+            respect[user.id] = {
+                respect: 100
+            }
+        }
+        
+        if (!coins[user.id]) {
+            coins[user.id] = {
+                coins: 0,
+                bank: 0
+            }
+        }
+
+        if (!profile[user.id]) {
+            profile[user.id] = {
+                class: undefined,
+                skillPoints: 1, // start off with 1
+                maxHealth: 100, // max = 8    | 1 sp = +5
+                health: 100,    // This is the amount you have.
+                attack: 10,     // max = 8    | 1 sp = +5
+                defense: 10,    // max = 8    | 1 sp = +5
+                stamina: 200,   // This is the amount yo have
+                maxStamina: 200,// max = 8    | 1 sp = +10
+                dodge: 1,       // max = 50%  | 1 sp = +1%
+                stealth: 1,     // max = 100% | 1 sp = +1%
+                critical: 2,    // max = 300% | 1 sp = +2%
+                storage: 0,     // This is the amount you have.
+                maxStorage: 400 // max = 8    | 5 sp = +50
+                                // 8 = infinite, sp = skillPoint(s)
+            }
+        }
+        
+        if (!storage[user.id]) {
+            storage[user.id] = {
+                deer: 0,
+                rabbit: 0,
+                wolf: 0,
+                ox: 0,
+                raccoon: 0,
+                bison: 0,
+                crocodile: 0,
+                skunk: 0,
+                fish: 0,
+                medkit: 0,
+                bandage: 0,
+                syringe: 0,
+                doubleXp: 0,
+                doubleCoins: 0,
+                serverBooster: 0,
+            }
+        }
+        fs.writeFile('data/xp.json', JSON.stringify(xp), (err) => {
+            if (err) console.log(err)
+        });
+        fs.writeFile('data/respect.json', JSON.stringify(respect), (err) => {
+            if (err) console.log(err)
+        });
+        fs.writeFile('data/coins.json', JSON.stringify(coins), (err) => {
+            if (err) console.log(err)
+        });
+        fs.writeFile('data/profile.json', JSON.stringify(profile), (err) => {
+            if (err) console.log(err)
+        });
+        fs.writeFile('data/storage.json', JSON.stringify(storage), (err) => {
+            if (err) console.log(err)
+        });
+    },
+    jsonError(err) {
+        let errEmbed = new Discord.MessageEmbed()
+            .setTitle('JSON ERROR')
+            .setColor(0xaa00cc)
+            .setDescription(`\`\`\`json\n${err}\`\`\``)
+        return errEmbed;
+    },
+    doubleXpSetter(message) {
+        return e.has(message.author.id);
+    },
+    doubleXpSet(message) {
+        
+        if (e.has(message.author.id)) {
+            return message.util.reply('You\'ve already used a booster!')
+        }
+        else {
+            e.add(message.author.id)
+            setTimeout(() => {
+                message.author.send('Your booster ran out!')
+                e.delete(message.author.id)
+            }, 1800000)
+        }
+    },
+    doubleCoinsSetter(message) {
+        return ee.has(message.author.id);
+    },
+    doubleCoinsSet(message) {
+        
+        if (ee.has(message.author.id)) {
+            return message.util.reply('You\'ve already used a booster!')
+        }
+        else {
+            ee.add(message.author.id)
+            setTimeout(() => {
+                message.author.send('Your booster ran out!')
+                ee.delete(message.author.id)
+            }, 1800000)
+        }
+    },
     set(message) {
         const set = new Set()
         let user = message.author.id;
@@ -37,13 +160,6 @@ module.exports = {
     random(args) {
         let random = Math.floor(Math.random() * Math.floor(args));
         return random
-    },
-    jsonError(err) {
-        let errEmbed = new Discord.MessageEmbed()
-            .setTitle('JSON ERROR')
-            .setColor(0xaa00cc)
-            .setDescription(`\`\`\`json\n${err}\`\`\``)
-        return errEmbed;
     },
     randomEmojis() {
         let choices = new Discord.Collection()

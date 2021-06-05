@@ -52,7 +52,7 @@ class PlayersCommand extends Command {
         }
         catch (e) {
             console.log(e)
-            await message.util.send(`${message.author}, in order to use this command I require the \`Embed Links\` permission`)
+            await message.util.send(`${message.author}, in order to use this command I require the \`Embed Links\` permission`);
         }
     }
 }

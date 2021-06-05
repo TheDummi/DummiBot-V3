@@ -11,7 +11,7 @@ const profile = require('../data/profile.json');
 const storage = require('../data/storage.json');
 const botSettings = require('../data/botSettings.json');
 
-const { random } = require('../funcs.js');
+const { random, doubleXpSetter, doubleCoinsSetter } = require('../funcs.js');
 const customCooldown = new Set();
 
 class MessageListener extends Listener {
@@ -23,7 +23,6 @@ class MessageListener extends Listener {
     }
 
     async exec(message, args) {
-
         let client = this.client;
         let user = message.author;
         let color = botSettings.color;
@@ -43,49 +42,8 @@ class MessageListener extends Listener {
                 if (err) console.log(err)
             })
         }
-        if (!xp[user.id]) {
-            xp[user.id] = {
-                xp: 0,
-                level: 1
-            }
-        }
 
-        if (!respect[user.id]) {
-            respect[user.id] = {
-                respect: 100
-            }
-        }
-        
-        if (!coins[user.id]) {
-            coins[user.id] = {
-                coins: 0,
-                bank: 0
-            }
-        }
-
-        if (!profile[user.id]) {
-            profile[user.id] = {
-                skillPoints: 1, // start off with 1
-                maxHealth: 100, // max = 8    | 1 sp = +5
-                health: 100,    // This is the amount you have.
-                attack: 10,     // max = 8    | 1 sp = +5
-                defense: 10,    // max = 8    | 1 sp = +5
-                stamina: 200,   // This is the amount yo have
-                maxStamina: 200,// max = 8    | 1 sp = +10
-                dodge: 1,       // max = 50%  | 1 sp = +1%
-                stealth: 1,     // max = 100% | 1 sp = +1%
-                critical: 2,    // max = 300% | 1 sp = +2%
-                storage: 0,     // This is the amount you have.
-                maxStorage: 400 // max = 8    | 5 sp = +50
-                                // 8 = infinite, sp = skillPoint(s)
-            }
-        }
-        
-        /*if (!storage[user.id]) {
-            storage[user].id = {
-                
-            }
-        }*/
+        //! rifle, fishing rod will be in a user data...
         
 
 
@@ -119,15 +77,16 @@ class MessageListener extends Listener {
             
             let XP = xp[user.id].xp;
             let level = xp[user.id].level;
-            let xpAdd = XP + random(xpEarn) + 1;
+            let xpAdd = random(xpEarn);
             let nextLvl = level * nextLevel
 
             let respectX = respect[user.id].respect;
 
             let coin = coins[user.id].coins;
             let bank = coins[user.id].bank;
-            let coinsAdd = coin + random(coinsEarn);
+            let coinsAdd = random(coinsEarn) + 1;
 
+            let Class = profile[user.id].class;
             let skillPoints = profile[user.id].skillPoints;
             let maxHealth = profile[user.id].maxHealth;
             let health = profile[user.id].health;
@@ -138,10 +97,29 @@ class MessageListener extends Listener {
             let dodge = profile[user.id].dodge;
             let stealth = profile[user.id].stealth;
             let critical = profile[user.id].critical;
-            let storage = profile[user.id].storage;
+            let Storage = profile[user.id].storage;
             let maxStorage = profile[user.id].maxStorage;
+            
             let guildCheck = new Boolean(message.guild);
+            
             let levelDm = name[user.id].levelDm;
+            
+            let deer = storage[user.id].deer;
+            let rabbit = storage[user.id].rabbit;
+            let wolf = storage[user.id].wolf;
+            let ox = storage[user.id].ox;
+            let raccoon = storage[user.id].raccoon;
+            let bison = storage[user.id].bison;
+            let crocodile = storage[user.id].crocodile;
+            let skunk = storage[user.id].skunk;
+            let fish = storage[user.id].fish;
+            let medkit = storage[user.id].medkit;
+            let bandage = storage[user.id].bandage;
+            let syringe = storage[user.id].syringe;
+            let doubleXp = storage[user.id].doubleXp;
+            let doubleCoins = storage[user.id].doubleCoins;
+            let serverBooster = storage[user.id].serverBooster;
+
             if (guildCheck == false) {
                 return XP = XP + 0;
             }
@@ -149,44 +127,53 @@ class MessageListener extends Listener {
                 return XP = XP + 0;
             }
             else {
-                XP = xpAdd;
+                if (doubleXpSetter(message)) {
+                    xpAdd = xpAdd * 2;
+                    console.log("double!")
+                }
+                XP = XP + xpAdd;
                 customCooldown.add(user.id)
                 setTimeout(() => {
                     customCooldown.delete(user.id)
                 }, 10000);
             }
-
-            coin = coinsAdd;
-
+            if (doubleCoinsSetter) {
+                coinsAdd = coinsAdd * 2;
+            }
+            coin = coin + coinsAdd;
             if (nextLvl <= XP) {
+                let lvlEmbed = new Discord.MessageEmbed()
+                    .setColor(color)
                 let placeholder = 2
                 skillPoints = skillPoints + 1
                 let levelCoins = Math.round(Math.random() * (random(level) + 1) * 100);
+                if (doubleCoinsSetter) {
+                    levelCoins = levelCoins * 2;
+                }
                 coin = coin + levelCoins;
                 level = level + 1
                 try {
                     if (levelDm == true) {
                         let rand = random(2)
-                        console.log(rand)
-                        if (rand == 0) embed = embed.addField('TIP', 'You can turn off DM level up messages with `~dm`')
-                        embed = embed
+                        if (rand == 0) lvlEmbed = lvlEmbed.addField('TIP', 'You can turn off DM level up messages with `~dm`')
+                        lvlEmbed = lvlEmbed
                             .setAuthor('🎉 You went level up! 🎉', user.displayAvatarURL({ dynamic: true }))
                             .setDescription(`You earned 1 skill point, and ${levelCoins} coins!`)
                             .setFooter('Use these rewards in server.')
                             .setTimestamp()
-                        user.send(embed)
+                        user.send(lvlEmbed)
                     }
                     else {
-                        embed = embed
+                        lvlEmbed = lvlEmbed
                             .setAuthor(`🎉 ${user.username}, you went level up! 🎉`, user.displayAvatarURL({ dynamic: true }))
                             .setDescription(`You earned 1 skill point(s), and ${levelCoins} coins!`)
                             .setTimestamp()
                         let str = `🎉 **${user}, you went level up!** 🎉\n\nYou earned 1 skill point(s), and ${levelCoins} coins!`
                         try {
-                            await message.channel.send(embed)
+                            await message.channel.send(lvlEmbed)
                                 .then(message => {
                                     setTimeout(() => {
-                                        message.delete(embed)
+                                        message.delete(lvlEmbed)
                                     }, 5000);
                                 });
                         }
@@ -209,6 +196,22 @@ class MessageListener extends Listener {
             let member;
             let memberLevel;
             let memberBank;
+            let memberDeer;
+            let memberRabbit;
+            let memberWolf;
+            let memberOx;
+            let memberRaccoon;
+            let memberBison;
+            let memberCrocodile;
+            let memberSkunk;
+            let memberFish;
+            let memberMedkit;
+            let memberBandage;
+            let memberSyringe;
+            let memberDoubleXp;
+            let memberDoubleCoins;
+            let memberServerBooster;
+            let newUser;
             if (Math.random() < 0.05) {
                 embed = embed
                     .setTitle('A chest appeared!')
@@ -224,15 +227,89 @@ class MessageListener extends Listener {
                 await msg.react('🗝️')
                 const filter = (reaction, user) => reaction.emoji.id = '🗝️';
                 let reactions = await msg.awaitReactions(filter, { max: 1 })
-                let newUser = reactions.first().users.cache.array().slice(1, 2)
+                newUser = reactions.first().users.cache.array().slice(1, 2)
                 if (newUser) {
                     let chestCoins = random(1000) + 1;
                     member = newUser[0].id;
+                    try {
+                        if (name[member].player == false) {
+                            await msg.delete()
+                            let m = await message.channel.send(`${newUser[0]} in order to claim this chest you have to use \`~start\` first!`)
+                                .then(async message => {
+                                    setTimeout(async () => {
+                                    await message.delete(m)
+                                }, 60000)
+                            })
+                        }
+                    }
+                    catch {
+                        await msg.delete()
+                        let m = await message.channel.send(`${newUser[0]} in order to claim this chest you have to use \`~start\` first!`)
+                        .then(async message => {
+                            setTimeout(async () => {
+                            await message.delete(m)
+                        }, 60000)
+                    })
+                    }
+                    let rand = random(50);
+                    let randTake = random(3);
+                    let xtrStr;
+                    let randNum1 = 0;
+                    let randNum2 = 0;
+                    let randNum3 = 0;
+                    if (rand == 0) {
+                        if (randTake == 0) {
+                            xtrStr = "You got lucky and found a double xp booster!"
+                            randNum1 = randNum1 + 1;
+                        }
+                        else if (randTake == 1) {
+                            xtrStr = "You got lucky and found a double coins booster!"
+                            randNum2 = randNum2 + 1;
+                        }
+                        else if (randTake == 2) {
+                            xtrStr = "You got lucky and found a server booster!"
+                            randNum3 = randNum3 + 1;
+                        }
+                        else xtrStr = ""
+                    }
+                    if (rand == 49) {
+                        if (randTake == 0) {
+                            xtrStr = "You got lucky and found a double xp booster!"
+                            randNum1 = randNum1 + 1;
+                        }
+                        else if (randTake == 1) {
+                            xtrStr = "You got lucky and found a double coins booster!"
+                            randNum2 = randNum2 + 1;
+                        }
+                        else if (randTake == 2) {
+                            xtrStr = "You got lucky and found a server booster!"
+                            randNum3 = randNum3 + 1;
+                        }
+                        else xtrStr = ""
+                    }
                     if (member == message.author.id) {
+                        doubleXp = doubleXp + randNum1;
+                        doubleCoins = doubleCoins + randNum2;
+                        serverBooster = serverBooster + randNum3;
                         XP = XP + random(1000) + 1;
                         coin = coin + chestCoins;
                     }
                     if (member != message.author.id) {
+                        memberDeer = storage[member].deer;
+                        memberRabbit = storage[member].rabbit;
+                        memberWolf = storage[member].wolf;
+                        memberOx = storage[member].ox;
+                        memberRaccoon = storage[member].raccoon;
+                        memberBison = storage[member].bison;
+                        memberCrocodile = storage[member].crocodile;
+                        memberSkunk = storage[member].skunk;
+                        memberFish = storage[member].fish;
+                        memberMedkit = storage[member].medkit;
+                        memberBandage = storage[member].bandage;
+                        memberSyringe = storage[member].syringe;
+                        memberDoubleXp = storage[member].doubleXp + randNum1;
+                        memberDoubleCoins = storage[member].doubleCoins + randNum2;
+                        memberServerBooster = storage[member].serverBooster + randNum3;
                         memberCoin = coins[member].coins;
                         memberBank = coins[member].bank;
                         memberXp = xp[member].xp;
@@ -240,13 +317,23 @@ class MessageListener extends Listener {
                         memberCoin = memberCoin + chestCoins;
                         memberXp = memberXp + random(1000) + 1;
                     }
-
-                    
-                    
-                    
-
                     await msg.delete();
-                    await message.channel.send(`${newUser} you opened the chest! You found: ₪ ${chestCoins}`);
+                    if (xtrStr == undefined || xtrStr == "") {
+                        let m = await message.channel.send(`${newUser} you opened the chest! You found: ₪ ${chestCoins}!`)
+                            .then(async message => {
+                                setTimeout(async () => {
+                                await message.delete(m)
+                            }, 60000)
+                        })
+                    }
+                    else {
+                        let m = await message.channel.send(`${newUser} you opened the chest! You found: ₪ ${chestCoins}!\n${xtrStr}`)
+                            .then(async message => {
+                                setTimeout(async () => {
+                                await message.delete(m)
+                            }, 60000)
+                        })
+                    }
                 }
                 else {
                     setTimeout(async () => {
@@ -280,6 +367,7 @@ class MessageListener extends Listener {
             }
 
             profile[user.id] = {
+                class: profile[user.id].class,
                 skillPoints: skillPoints,
                 maxHealth: maxHealth,
                 health: health,
@@ -290,8 +378,44 @@ class MessageListener extends Listener {
                 dodge: dodge,
                 stealth: stealth,
                 critical: critical,
-                storage: storage,
+                storage: Storage,
                 maxStorage: maxStorage,
+            }
+
+            storage[user.id] = {
+                deer:  memberDeer,
+                rabbit: memberRabbit,
+                wolf:  memberWolf,
+                ox: memberOx,
+                raccoon: memberRaccoon,
+                bison: memberBison,
+                crocodile: memberCrocodile,
+                skunk: memberSkunk,
+                fish:  memberFish,
+                medkit: memberMedkit,
+                bandage: memberBandage,
+                syringe:memberSyringe,
+                doubleXp: memberDoubleXp,
+                doubleCoins: memberDoubleCoins,
+                serverBooster: memberServerBooster,
+            }
+
+            storage[user.id] = {
+                deer: deer,
+                rabbit: rabbit,
+                wolf: wolf,
+                ox: ox,
+                raccoon: raccoon,
+                bison: bison,
+                crocodile: crocodile,
+                skunk: skunk,
+                fish: fish,
+                medkit: medkit,
+                bandage: bandage,
+                syringe: syringe,
+                doubleXp: doubleXp,
+                doubleCoins: doubleCoins,
+                serverBooster: serverBooster,
             }
 
             fs.writeFile('data/xp.json', JSON.stringify(xp), (err) => {
@@ -306,9 +430,9 @@ class MessageListener extends Listener {
             fs.writeFile('data/profile.json', JSON.stringify(profile), (err) => {
                 if (err) console.log(err)
             });
-            /*fs.writeFile('data/storage.json', JSON.stringify(storage), (err) => {
+            fs.writeFile('data/storage.json', JSON.stringify(storage), (err) => {
                 if (err) console.log(err)
-            });*/
+            });
         }
     }
 };

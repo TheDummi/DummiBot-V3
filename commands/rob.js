@@ -36,7 +36,7 @@ class RobCommand extends Command {
         let member = args.user;
 
         if (member.bot) {
-            return await message.util.reply('you can\'t give money to bots!')
+            return await message.util.reply('you can\'t steal money from bots!')
         }
         if (check[user.id].player == false) {
             return await message.util.reply('you haven\'t started your journey yet! Start your journey with `~start`')

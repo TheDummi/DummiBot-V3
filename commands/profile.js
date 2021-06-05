@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 const profile = require('../data/profile.json');
 const check = require('../data/name.json');
 const botSettings = require('../data/botSettings');
+const storage = require('../data/storage.json');
 
 const { random } = require('../funcs.js')
 
@@ -45,6 +46,7 @@ class ProfileCommand extends Command {
                 }
             }
 
+            let subClass = profile[member.id].class;
             let skillPoints = profile[member.id].skillPoints;
             let maxHealth = profile[member.id].maxHealth;
             let health = profile[member.id].health;
@@ -55,14 +57,31 @@ class ProfileCommand extends Command {
             let dodge = profile[member.id].dodge;
             let stealth = profile[member.id].stealth;
             let critical = profile[member.id].critical;
-            let storage = profile[member.id].storage;
+            let Storage = profile[member.id].storage;
             let maxStorage = profile[member.id].maxStorage;
+
+            let deer = storage[member.id].deer;
+            let rabbit = storage[member.id].rabbit;
+            let wolf = storage[member.id].wolf;
+            let ox = storage[member.id].ox;
+            let raccoon = storage[member.id].raccoon;
+            let bison = storage[member.id].bison;
+            let crocodile = storage[member.id].crocodile;
+            let skunk = storage[member.id].skunk;
+            let fish = storage[member.id].fish;
+            let medkit = storage[member.id].medkit;
+            let bandage = storage[member.id].bandage;
+            let syringe = storage[member.id].syringe;
+            let doubleXp = storage[member.id].doubleXp;
+            let doubleCoins = storage[member.id].doubleCoins;
+            let serverBooster = storage[member.id].serverBooster;
+            Storage = deer + rabbit + wolf + ox + raccoon + bison + crocodile + skunk + fish + medkit + bandage + syringe + doubleXp + doubleCoins + serverBooster;
             
-            let str = `> ⏫ Skill points: ${skillPoints}\n> \n> ❤️ Health: ${health}/${maxHealth}\n> \n> ⚔️ Attack: ${attack}\n> \n> 🛡️ Defense: ${defense}\n> \n> ♾️ Stamina: ${stamina}/${maxStamina}\n> \n> ❌ Dodge: ${dodge}%\n> \n> :ninja: Stealth: ${stealth}%\n> \n> 💥 Critical: ${critical}%\n> \n> 📦 Storage: ${storage}/${maxStorage}` 
+            let str = `> ⚛️ Subclass: ${subClass}\n\n > ⏫ Skill points: ${skillPoints}\n> \n> ❤️ Health: ${health}/${maxHealth}\n> \n> ⚔️ Attack: ${attack}\n> \n> 🛡️ Defense: ${defense}\n> \n> ♾️ Stamina: ${stamina}/${maxStamina}\n> \n> ❌ Dodge: ${dodge}%\n> \n> :ninja: Stealth: ${stealth}%\n> \n> 💥 Critical: ${critical}%\n> \n> 📦 Storage: ${Storage}/${maxStorage}` 
             try {
                 embed = embed
                     .setAuthor(`${member.username}'s profile`, member.displayAvatarURL({ dynamic: true }))
-                    .setDescription(`⏫ Skill points: ${skillPoints}\n\n❤️ Health: ${health}/${maxHealth}\n\n⚔️ Attack: ${attack}\n\n🛡️ Defense: ${defense}\n\n♾️ Stamina: ${stamina}/${maxStamina}\n\n❌ Dodge: ${dodge}%\n\n:ninja: Stealth: ${stealth}%\n\n💥 Critical: ${critical}%\n\n📦 Storage: ${storage}/${maxStorage}`);
+                    .setDescription(`⚛️ Subclass: ${subClass}\n\n ⏫ Skill points: ${skillPoints}\n\n❤️ Health: ${health}/${maxHealth}\n\n⚔️ Attack: ${attack}\n\n🛡️ Defense: ${defense}\n\n♾️ Stamina: ${stamina}/${maxStamina}\n\n❌ Dodge: ${dodge}%\n\n:ninja: Stealth: ${stealth}%\n\n💥 Critical: ${critical}%\n\n📦 Storage: ${Storage}/${maxStorage}`);
                 return await message.util.send(embed);
             }
             catch {

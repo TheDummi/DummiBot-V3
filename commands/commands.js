@@ -93,7 +93,12 @@ class CommandsCommand extends Command {
 			.setColor(color)
 			.setThumbnail(message.guild.iconURL({ dynamic: true }))
 		embeds.unshift(firstEmbed)
-		paginate(message, embeds)
+		try {
+			await paginate(message, embeds)
+		}
+		catch {
+			await message.util.reply('in order to use this command I require the `Embed Links` permission');
+		}
 	}
 };
 
