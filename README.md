@@ -160,4 +160,4 @@ DummiBot's prefix' are "dummi" and "~"
 
 ## Contact
 
-If you need any more info/help, join the support server [here](https://discord.gg/DZJCyaU2RS).
+If you need any more info/help, join the support server [here](https://discord.gg/DZJCyaU2RS). :(
